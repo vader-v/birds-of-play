@@ -1,15 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
+
 {% load static %}
 
 {% block head %}
-<link 
+<link
   rel="stylesheet"
   type="text/css"
   href="{% static 'css/birds/bird-index.css' %}"
 />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <section class="page-header">
   <h1>Bird List</h1>
@@ -17,23 +16,22 @@
 
 <section class="card-container">
   {% for bird in birds %}
-    <div class="card">
+  <div class="card">
+    <a href="/birds/{{ bird.id }}">
       <div class="card-content">
         <div class="card-img-container">
-          <img 
-            src="" 
-            alt="bird here"
-          >
+          <img src="" alt="bird here" />
         </div>
         <h2 class="card-title">{{ bird.name }}</h2>
         {% if bird.times_seen > 0 %}
-          <p>I've seen {{ bird.name }} enough to recognize it</p>
+        <p>I've seen {{ bird.name }} enough to recognize it</p>
         {% else %}
-          <p>I have never seen this bird.</p>
+        <p>I have never seen this bird.</p>
         {% endif %}
         <p><small>{{ bird.description }}</small></p>
       </div>
-    </div>
+    </a>
+  </div>
   {% endfor %}
 </section>
 
