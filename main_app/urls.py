@@ -7,4 +7,5 @@ urlpatterns = [
   path('accounts/signup/', views.signup, name='signup'),
   path('birds/', views.bird_index, name='bird-index'),
   path('birds/create/', views.BirdCreate.as_view(), name='bird-create'),
+  path('birds/<int:bird_id>/', views.bird_detail, name='bird-detail'),
 ]
