@@ -5,7 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Bird
+from .models import Bird, Photo
+import uuid
+import boto3
+S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
+BUCKET = 'amir-bullock-birds-of-play'
 
 class Home(LoginView):
   template_name = 'home.html'
@@ -51,3 +55,20 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'signup.html', context)
+
+def add_photo(request, bird_id):
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex + photo_file.name[photo_file.name.rfind('.'):]
+    try:
+      s3.upload_fileobj(photo_file, BUCKET, key)
+      url = f"{S3_BASE_URL}{BUCKET}/{key}"
+      photo = Photo(url=url, bird_id=bird_id)
+      bird_photo = Photo.objects.filter(bird_id=bird_id)
+      if bird_photo.first():
+        bird_photo.first().delete()
+      photo.save()
+    except Exception as err:
+      print('An error occurred uploading file to S3: %s' % err)
+    return redirect('bird-detail', bird_id=bird_id)
