@@ -1,35 +1,54 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block head %}
-<link 
-  rel="stylesheet" 
-  type="text/css" 
+<link
+  rel="stylesheet"
+  type="text/css"
   href="{% static 'css/birds/bird-detail.css' %}"
 />
 {% endblock %}
-
 {% block content %}
 
 <section class="bird-container">
   <div class="bird-img">
-    <img 
-      src="" 
-      alt="birds of play logo"
-    >
+    {% if bird.photo.url %}
+    <img
+      src="{{bird.photo.url}}"
+      alt="A photo of {{bird.name}}"
+      class="usr-img"
+    />
+    {% else %}
+    <img src="" alt="The birds of play logo" />
+    {% endif %}
   </div>
   <div class="bird-details">
     <h2 class="card-title">{{ bird.name }}</h2>
-        {% if bird.times_seen > 0 %}
-        <p>I've seen {{ bird.name }} enough to recognize it</p>
-        {% else %}
-        <p>I have never seen this bird.</p>
-        {% endif %}
-        <p><small>{{ bird.description }}</small></p>
-        <div class="bird-actions">
-          <a href="{% url 'bird-update' bird.id %}" class="btn warn">Edit</a>
-          <a href="{% url 'bird-delete' bird.id %}" class="btn danger">Delete</a>
-        </div>
+    {% if bird.times_seen > 0 %}
+    <p>I've seen {{ bird.name }} enough to recognize it</p>
+    {% else %}
+    <p>I have never seen this bird.</p>
+    {% endif %}
+    <p><small>{{ bird.description }}</small></p>
+    <div class="bird-actions">
+      <a href="{% url 'bird-update' bird.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'bird-delete' bird.id %}" class="btn danger">Delete</a>
+    </div>
+    <h3>Change {{ bird.name }}'s photo</h3>
+    <p id="file-name"></p>
+    <form
+      action="{% url 'add-photo' bird.id%}"
+      enctype="multipart/form-data"
+      method="POST"
+    >
+      {% csrf_token %}
+      <label class="btn secondary">
+        Choose photo
+        <input type="file" name="photo-file" id="file-input" />
+      </label>
+      <button type="submit" class="btn submit">Upload Photo</button>
+    </form>
   </div>
 </section>
 
