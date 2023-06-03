@@ -20,7 +20,15 @@
     <a href="{% url 'bird-detail' bird.id %}">
       <div class="card-content">
         <div class="card-img-container">
-          <img src="" alt="bird here" />
+          {% if bird.photo.url %}
+            <img
+              src="{{bird.photo.url}}"
+              alt="A photo of {{bird.name}}"
+              class="usr-img"
+            />
+            {% else %}
+            <img src="" alt="The birds of play logo" />
+            {% endif %}
         </div>
         <h2 class="card-title">{{ bird.name }}</h2>
         {% if bird.times_seen > 0 %}
