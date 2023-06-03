@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView
 from .models import Bird
 
 class Home(LoginView):
@@ -10,6 +13,15 @@ class Home(LoginView):
 def about(request):
   return render(request, 'about.html')
 
+class BirdCreate(LoginRequiredMixin, CreateView):
+  model = Bird
+  fields = ['name', 'origin', 'description', 'times_seen']
+  success_url = '/birds/'
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+
+@login_required
 def bird_index(request):
   birds = Bird.objects.all()
   return render(request, 'birds/index.html', { 'birds': birds })
