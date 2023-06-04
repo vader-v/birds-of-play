@@ -44,8 +44,11 @@ body {
 
 header {
   width: 100%;
-  background: var(--nav-bg-ff); 
+  background: var(--nav-bg-ff);
   border-bottom: var(--borders);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 nav {
@@ -56,6 +59,8 @@ ul {
   margin: 0;
   list-style: none;
   padding: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
 main {
@@ -81,7 +86,7 @@ nav a:hover {
 nav ul {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
 }
 
@@ -93,6 +98,10 @@ nav li {
   margin: auto;
   padding: 10px 20px 0;
   max-width: 500px;
+}
+
+.header-logo-container img {
+  height: 100%;
 }
 
 .page-header {
