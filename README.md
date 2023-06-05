@@ -8,6 +8,12 @@ Birds of Play is an application for Digital Avian enthusiasts to log their favor
 ---
 ## App Screenshots
 
+
+![add-bird](main_app/static/images/add-bird.png)
+![bird-list](main_app/static/images/bird-list.png)
+![home](main_app/static/images/home.png)
+
+
 ---
 ## How to use my app!
 
