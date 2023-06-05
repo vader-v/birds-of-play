@@ -56,6 +56,7 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'signup.html', context)
 
+@login_required
 def add_photo(request, bird_id):
   photo_file = request.FILES.get('photo-file', None)
   if photo_file:
