@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView
 from .models import Bird, Photo
 import uuid
 import boto3
@@ -14,8 +15,8 @@ BUCKET = 'amir-bullock-birds-of-play'
 class Home(LoginView):
   template_name = 'home.html'
 
-def about(request):
-  return render(request, 'about.html')
+class AboutView(TemplateView):
+  template_name = "about.html"
 
 class BirdCreate(LoginRequiredMixin, CreateView):
   model = Bird
