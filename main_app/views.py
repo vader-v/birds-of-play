@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import TemplateView
+from django.views import View
 from .models import Bird, Photo
 import uuid
 import boto3
@@ -28,7 +29,7 @@ class BirdCreate(LoginRequiredMixin, CreateView):
 
 class BirdUpdate(LoginRequiredMixin, UpdateView):
   model = Bird
-  fields = ['origin', 'description', 'times_seen']
+  fields = ['name', 'origin', 'description', 'times_seen']
 
 class BirdDelete(LoginRequiredMixin, DeleteView):
   model = Bird
@@ -43,19 +44,25 @@ def bird_index(request):
 def bird_detail(request, bird_id):
   bird = Bird.objects.get(id=bird_id)
   return render(request, 'birds/detail.html', {'bird': bird })
-def signup(request):
-  error_message = ''
-  if request.method == 'POST':
+
+class SignupView(View):
+  def get(self, request):
+    form = UserCreationForm()
+    context = {'form': form}
+    return render(request, 'signup.html', context)
+
+  def post(self, request):
     form = UserCreationForm(request.POST)
+    error_message = ''
     if form.is_valid():
       user = form.save()
       login(request, user)
       return redirect('home')
     else:
       error_message = 'Invalid sign up - try again'
-  form = UserCreationForm()
-  context = {'form': form, 'error_message': error_message}
-  return render(request, 'signup.html', context)
+      form = UserCreationForm()
+      context = {'form': form, 'error_message': error_message}
+    return render(request, 'signup.html', context)
 
 @login_required
 def add_photo(request, bird_id):

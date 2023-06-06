@@ -13,7 +13,7 @@ class Bird(models.Model):
       return self.name
   
   def get_absolute_url(self):
-      return reverse("bird-detail", kwargs={"bird-id": self.id})
+      return reverse("bird-detail", kwargs={"bird_id": self.id})
 
 class Photo(models.Model):
   url = models.CharField(max_length=250)
