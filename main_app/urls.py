@@ -10,5 +10,5 @@ urlpatterns = [
   path('birds/<int:bird_id>/', views.bird_detail, name='bird-detail'),
   path('birds/<int:pk>/update/', views.BirdUpdate.as_view(), name='bird-update'),
   path('birds/<int:pk>/delete/', views.BirdDelete.as_view(), name='bird-delete'),
-  path('birds/<int:bird_id>/add-photo/', views.add_photo, name='add-photo'),
+  path('add-photo/<int:bird_id>/', views.AddPhotoView.as_view(), name='add-photo'),
 ]
