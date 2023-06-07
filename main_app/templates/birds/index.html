@@ -1,14 +1,14 @@
-{% extends 'base.html' %} 
-
+{% extends 'base.html' %}
 {% load static %}
-
 {% block head %}
+
 <link
   rel="stylesheet"
   type="text/css"
   href="{% static 'css/birds/bird-index.css' %}"
 />
-{% endblock %} {% block content %}
+{% endblock %}
+{% block content %}
 
 <section class="page-header">
   <h1>Bird List</h1>
@@ -21,14 +21,17 @@
       <div class="card-content">
         <div class="card-img-container">
           {% if bird.photo.url %}
-            <img
-              src="{{bird.photo.url}}"
-              alt="A photo of {{bird.name}}"
-              class="usr-img"
-            />
-            {% else %}
-            <img src="{% static 'images/birds-of-play-logo.png'%}" alt="The birds of play logo" />
-            {% endif %}
+          <img
+            src="{{bird.photo.url}}"
+            alt="A photo of {{bird.name}}"
+            class="usr-img"
+          />
+          {% else %}
+          <img
+            src="{% static 'images/birds-of-play-logo.png'%}"
+            alt="The birds of play logo"
+          />
+          {% endif %}
         </div>
         <h2 class="card-title">{{ bird.name }}</h2>
         {% if bird.times_seen > 0 %}

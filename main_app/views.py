@@ -76,7 +76,7 @@ class AddPhotoView(LoginRequiredMixin, View):
         photo = Photo(url=url, bird_id=bird_id)
         bird_photo = Photo.objects.filter(bird_id=bird_id)
         if bird_photo.first():
-            bird_photo.first().delete()
+          bird_photo.first().delete()
         photo.save()
       except Exception as err:
         print('An error occurred uploading file to S3: %s' % err)

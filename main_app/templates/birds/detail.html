@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block head %}
 <link
   rel="stylesheet"
@@ -21,7 +19,10 @@
       class="usr-img"
     />
     {% else %}
-    <img src="{% static 'images/birds-of-play-logo.png'%}" alt="The birds of play logo" />
+    <img
+      src="{% static 'images/birds-of-play-logo.png'%}"
+      alt="The birds of play logo"
+    />
     {% endif %}
   </div>
   <div class="bird-details">
