@@ -35,15 +35,15 @@ class BirdDelete(LoginRequiredMixin, DeleteView):
   model = Bird
   success_url = '/birds/'
 
-@login_required
-def bird_index(request):
-  birds = Bird.objects.filter(user=request.user)
-  return render(request, 'birds/index.html', { 'birds': birds })
+class BirdIndex(LoginRequiredMixin, View):
+    def get(self, request):
+      birds = Bird.objects.filter(user=request.user)
+      return render(request, 'birds/index.html', {'birds': birds})
 
-@login_required
-def bird_detail(request, bird_id):
-  bird = Bird.objects.get(id=bird_id)
-  return render(request, 'birds/detail.html', {'bird': bird })
+class BirdDetail(LoginRequiredMixin, View):
+    def get(self, request, bird_id):
+      bird = Bird.objects.get(id=bird_id)
+      return render(request, 'birds/detail.html', {'bird': bird})
 
 class SignupView(View):
   def get(self, request):
