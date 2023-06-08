@@ -31,7 +31,7 @@ class BirdCreate(LoginRequiredMixin, CreateView):
 class BirdUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Bird
     fields = ['name', 'origin', 'description', 'times_seen']
-    permission_required = 'birds.change_bird'  # Specify the required permission
+    permission_required = 'birds.change_bird' 
 
     def has_permission(self):
         bird = self.get_object()
@@ -45,7 +45,7 @@ class BirdUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 class BirdDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Bird
     success_url = '/birds/'
-    permission_required = 'birds.delete_bird'  # Specify the required permission
+    permission_required = 'birds.delete_bird'
 
     def has_permission(self):
         bird = self.get_object()
