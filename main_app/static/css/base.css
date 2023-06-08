@@ -176,7 +176,6 @@ nav li {
 
 @media only screen and (max-width: 1023px) {
   header {
-    position: sticky;
     display: flex;
     flex-direction: row;
     top: 0;
