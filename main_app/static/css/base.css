@@ -46,10 +46,16 @@ header {
   width: 100%;
   background: var(--nav-bg-ff);
   border-bottom: var(--borders);
-  display: flex;
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
+
+.header-logo-container h5 {
+  margin-top: 5px;
+}
+
 
 nav {
   margin: 10px;
@@ -98,6 +104,8 @@ nav li {
   margin: auto;
   padding: 10px 20px 0;
   max-width: 500px;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .header-logo-container img {
@@ -166,13 +174,14 @@ nav li {
   font-size: var(--font-reg);
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 1023px) {
   header {
     position: sticky;
     display: flex;
     flex-direction: row;
     top: 0;
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   main {
@@ -188,20 +197,36 @@ nav li {
 
   .header-logo-container {
     padding-top: 3px;
+    width: 213px;
+    flex-direction: column;
+    flex-basis: auto;
+  }
+
+  h5 {
+    font-size: 2rem;
+    display: flex;
+    justify-content: flex-end;
   }
 
   nav {
-    margin-left: auto;
+    margin-left: 100px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  nav a, header.header-logo-container {
+    font-size: 25px;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   nav ul {
-    flex-wrap: nowrap;
-  }
-
-  .header-logo-container {
-    width: 213px;
+    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .page-header h1 {
@@ -238,6 +263,8 @@ nav li {
     top: 20px;
     background-color: transparent;
     border-bottom: none;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   nav,
@@ -248,14 +275,23 @@ nav li {
     border-radius: 18px;
   }
 
+  h5 {
+    font-size: 1.4rem;
+    margin-top: 10px;
+  }
+
   nav {
-    margin-left: auto;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
   }
 
   .header-logo-container {
+    margin-bottom: 10px;
     padding-top: 6px;
     width: 256px;
     height: 35px;
+    flex-direction: row;
   }
 
   @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
