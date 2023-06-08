@@ -3,10 +3,11 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import TemplateView
 from django.views import View
+from django.http import Http404
 from .models import Bird, Photo
 import uuid
 import boto3
@@ -27,23 +28,54 @@ class BirdCreate(LoginRequiredMixin, CreateView):
     form.instance.user = self.request.user
     return super().form_valid(form)
 
-class BirdUpdate(LoginRequiredMixin, UpdateView):
-  model = Bird
-  fields = ['name', 'origin', 'description', 'times_seen']
+class BirdUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Bird
+    fields = ['name', 'origin', 'description', 'times_seen']
+    permission_required = 'birds.change_bird'  # Specify the required permission
 
-class BirdDelete(LoginRequiredMixin, DeleteView):
-  model = Bird
-  success_url = '/birds/'
+    def has_permission(self):
+        bird = self.get_object()
+        return bird.user == self.request.user
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.has_permission():
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
+
+class BirdDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Bird
+    success_url = '/birds/'
+    permission_required = 'birds.delete_bird'  # Specify the required permission
+
+    def has_permission(self):
+        bird = self.get_object()
+        return bird.user == self.request.user
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.has_permission():
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
 
 class BirdIndex(LoginRequiredMixin, View):
     def get(self, request):
       birds = Bird.objects.filter(user=request.user)
       return render(request, 'birds/index.html', {'birds': birds})
 
-class BirdDetail(LoginRequiredMixin, View):
+class BirdDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'birds.view_bird'
+
+    def get_permission_required(self):
+        bird = Bird.objects.get(id=self.kwargs['bird_id'])
+        return ['birds.view_bird'] if bird.user == self.request.user else []
+
     def get(self, request, bird_id):
-      bird = Bird.objects.get(id=bird_id)
-      return render(request, 'birds/detail.html', {'bird': bird})
+        try:
+            bird = Bird.objects.get(id=bird_id)
+            if bird.user != request.user:
+                raise Http404
+            return render(request, 'birds/detail.html', {'bird': bird})
+        except Bird.DoesNotExist:
+            raise Http404
 
 class SignupView(View):
   def get(self, request):
