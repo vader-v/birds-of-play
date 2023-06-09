@@ -51,6 +51,8 @@ To begin using the application, simply log in or sign up. Once logged in, users 
 - Github for future updates
 - Fly.io for deployment
 - AWS S3 photo uploads
+- Gunicorn
+- Boto3
 
 ---
 
