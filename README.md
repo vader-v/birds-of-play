@@ -17,6 +17,7 @@ _An app built for avid digital avian collectors!_
 
 Birds of Play is an application designed for Digital Avian enthusiasts to create and manage their own personal list of favorite birds from video games. Users can track the number of times they have encountered each bird and provide a brief description of their unique characteristics.
 
+![birds-of-play-logo](main_app/static/images/birds-of-play-logo.png)
 
 ---
 ## App Screenshots
